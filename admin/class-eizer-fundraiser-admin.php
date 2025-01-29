@@ -100,4 +100,47 @@ class Eizer_Fundraiser_Admin {
 
 	}
 
+	// add plugin menu
+	function eizer_fundraiser_add_plugin_menu() {
+		add_menu_page(
+			'Eizer Fundraiser',
+			'Eizer Fundraiser',
+			'manage_options',
+			'eizer-index', 
+			array( $this, 'eizer_fundraiser_plugin_home_page' ),
+			'', 
+			6
+		);
+		// add_submenu_page( 'vea_api', 'Shortcodes', 'Shortcodes', 'manage_options', 'vea_api-shortcode', array( $this, 'vea_api_plugin_shortcode_page' ) );
+	}
+
+	// eizer fundraiser plugin home page
+	function eizer_fundraiser_plugin_home_page() {
+
+		if (!current_user_can('manage_options')) {
+			echo('You do not have sufficient permissions to access this page.');
+			return;
+		}
+
+		// Add error/update messages
+
+        // Check if the user have submitted the settings,
+        // WordPress will add the "settings-updated" $_GET parameter to the url
+        // if ( isset( $_GET['settings-updated'] ) ) {
+        //     // Add settings saved message with the class of "updated"
+        //     add_settings_error( 'vea-api-section', 'vea_api_message', __( 'Settings Saved', 'vea-api' ), 'updated' );
+        // }
+
+        // Show error/update messages
+        // settings_errors( 'vea-api-section' );
+
+		// $output_header = $this->output_header( );
+
+		?>
+		<div class="wrap">
+			<div>Homepage</div>
+		</div>
+		<?php
+	}
+
 }
