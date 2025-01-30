@@ -39,6 +39,8 @@ class Eizer_Fundraiser_Activator
 
 		$charset_collate = $wpdb->get_charset_collate();
 		$tbl_collections = $wpdb->prefix . 'ezf_collections';
+		$tbl_cc_machine = $wpdb->prefix . 'ezf_cc_machine';
+		$tbl_redeem = $wpdb->prefix . 'ezf_redeem';
 
 		$sql_collection = "CREATE TABLE $tbl_collections (
 			id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
@@ -49,6 +51,7 @@ class Eizer_Fundraiser_Activator
 			card_number text,
 			voucher_type varchar(255),
 			check_number text,
+			check_name text,
 			check_memo text,
 			date_collected datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
 			payment_method varchar(255) DEFAULT 'Credit Card',
@@ -57,6 +60,32 @@ class Eizer_Fundraiser_Activator
 			date_updated datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
 			PRIMARY KEY (id)
 		) $charset_collate;";
+
+$sql_cc_machine = "CREATE TABLE $tbl_cc_machine (
+	id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+	user_id mediumint(9) NOT NULL,
+	email varchar(100) NOT NULL,
+	cc_machine_name text,
+	cc_machine_number text,
+	status varchar(25) DEFAULT 'pending',
+	date_created datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+	date_updated datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+	PRIMARY KEY (id)
+) $charset_collate;";
+
+$sql_redeem = "CREATE TABLE $tbl_redeem (
+	id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+	user_id mediumint(9) NOT NULL,
+	email varchar(100) NOT NULL,
+	amount decimal(19,4) NULL default NULL,
+	check_number text,
+	check_name text,
+			check_memo text,
+	status varchar(25) DEFAULT 'pending',
+	date_created datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+	date_updated datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+	PRIMARY KEY (id)
+) $charset_collate;";
 
 		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 		dbDelta($sql_collection);
