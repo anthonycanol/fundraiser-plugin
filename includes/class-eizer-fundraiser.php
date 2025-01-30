@@ -173,10 +173,13 @@ class Eizer_Fundraiser {
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 
+		$this->loader->add_filter( 'query_vars', $plugin_public, 'add_query_vars_filter' );
+
 		// Load the fundraisers class and create its hooks:
 	    require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-eizer-fundraisers.php';
 	    $fundraisers = new Eizer_Fundraisers();
 		$this->loader->add_action( 'init', $fundraisers, 'eizer_fundraiser_shortcode' );
+		$this->loader->add_action( 'init', $fundraisers, 'eizer_fundraiser_page_shortcode' );
 	}
 
 	/**

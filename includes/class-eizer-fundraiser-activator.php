@@ -67,5 +67,7 @@ class Eizer_Fundraiser_Activator
 		add_role( 'fundraiser', __( 'Fundraiser' ),
 			array()
 		);
+
+		flush_rewrite_rules();
 	}
 }

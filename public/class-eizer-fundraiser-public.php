@@ -102,4 +102,9 @@ class Eizer_Fundraiser_Public
 		wp_enqueue_script($this->plugin_name, '//cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js', array('jquery'), $this->version, false);
 		wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/eizer-fundraiser-public.js', array('jquery'), $this->version, false);
 	}
+
+	function add_query_vars_filter( $vars ){
+        $vars[] = "id";
+        return $vars;
+    }
 }
