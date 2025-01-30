@@ -61,7 +61,7 @@ class Eizer_Fundraiser_Activator
 			PRIMARY KEY (id)
 		) $charset_collate;";
 
-$sql_cc_machine = "CREATE TABLE $tbl_cc_machine (
+		$sql_cc_machine = "CREATE TABLE $tbl_cc_machine (
 	id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
 	user_id mediumint(9) NOT NULL,
 	email varchar(100) NOT NULL,
@@ -73,7 +73,7 @@ $sql_cc_machine = "CREATE TABLE $tbl_cc_machine (
 	PRIMARY KEY (id)
 ) $charset_collate;";
 
-$sql_redeem = "CREATE TABLE $tbl_redeem (
+		$sql_redeem = "CREATE TABLE $tbl_redeem (
 	id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
 	user_id mediumint(9) NOT NULL,
 	email varchar(100) NOT NULL,
@@ -89,11 +89,15 @@ $sql_redeem = "CREATE TABLE $tbl_redeem (
 
 		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 		dbDelta($sql_collection);
+		dbDelta($sql_cc_machine);
+		dbDelta($sql_redeem);
 
 		/**
 		 * Add Fundraiser user roles
 		 */
-		add_role( 'fundraiser', __( 'Fundraiser' ),
+		add_role(
+			'fundraiser',
+			__('Fundraiser'),
 			array()
 		);
 
