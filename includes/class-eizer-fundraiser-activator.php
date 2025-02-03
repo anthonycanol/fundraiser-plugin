@@ -46,7 +46,7 @@ class Eizer_Fundraiser_Activator
 			id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
 			user_id mediumint(9) NOT NULL,
 			amount decimal(19,4) NULL default NULL,
-			email varchar(100) NOT NULL,
+			email varchar(100) NULL default NULL,
 			card_holder_name text,
 			card_number text,
 			voucher_type varchar(255),
@@ -55,7 +55,7 @@ class Eizer_Fundraiser_Activator
 			check_memo text,
 			date_collected datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
 			payment_method varchar(255) DEFAULT 'Credit Card',
-			status varchar(25) DEFAULT 'pending',
+			status varchar(25) DEFAULT 'Pending',
 			date_created datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
 			date_updated datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
 			PRIMARY KEY (id)

@@ -99,12 +99,12 @@ class Eizer_Fundraiser_Public
 		 * class.
 		 */
 
-		wp_enqueue_script($this->plugin_name, '//cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js', array('jquery'), $this->version, false);
-		wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/eizer-fundraiser-public.js', array('jquery'), $this->version, false);
+		wp_enqueue_script('ezf-ajax-public', plugin_dir_url(__FILE__) . 'js/ezf-public.js', array('jquery'), $this->version, true);
+		wp_localize_script('ezf-ajax-public', 'ezf_ajax_object', [
+			'ajax_url' => admin_url('admin-ajax.php'),
+			'nonce'    => wp_create_nonce('my_ajax_nonce'),
+		]);
+		wp_enqueue_script($this->plugin_name . "-bootstrapjs", '//cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js', array('jquery'), $this->version, true);
+		wp_enqueue_script($this->plugin_name . "-ezfpublicjs", plugin_dir_url(__FILE__) . 'js/eizer-fundraiser-public.js', array('jquery'), $this->version, true);
 	}
-
-	function add_query_vars_filter( $vars ){
-        $vars[] = "id";
-        return $vars;
-    }
 }
