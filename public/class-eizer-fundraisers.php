@@ -69,7 +69,7 @@ class Eizer_Fundraisers
 		}
 
 		$now = new DateTime();
-
+		
 		// Insert data into the custom table
 		$result = $wpdb->insert(
 			$tbl_collections,
@@ -88,7 +88,7 @@ class Eizer_Fundraisers
 				"date_updated" => $now->format('Y-m-d H:i:s')
 			]
 		);
-
+		
 		// Check if the data was inserted successfully
 		if ($result) {
 			wp_send_json_success('Data saved successfully!');
@@ -312,6 +312,7 @@ class Eizer_Fundraisers
 			  }
 			}
 	  }*/
+	  echo 'done';
 		wp_die();
 	}
 }

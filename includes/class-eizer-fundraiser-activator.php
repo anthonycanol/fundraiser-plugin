@@ -45,7 +45,7 @@ class Eizer_Fundraiser_Activator
 		$sql_collection = "CREATE TABLE $tbl_collections (
 			id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
 			user_id mediumint(9) NOT NULL,
-			amount decimal(19,4) NULL default NULL,
+			amount decimal(19,2) NULL default NULL,
 			email varchar(100) NULL default NULL,
 			card_holder_name text,
 			card_number text,

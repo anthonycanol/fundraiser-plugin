@@ -76,6 +76,7 @@ class Eizer_Fundraiser_Public
 		 */
 
 		wp_enqueue_style('bootstrap', '//cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css', [], $this->version, 'all');
+		wp_enqueue_style('font-awesome', '//cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css', [], $this->version, 'all');
 		wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/eizer-fundraiser-public.css', array(), $this->version, 'all');
 	}
 

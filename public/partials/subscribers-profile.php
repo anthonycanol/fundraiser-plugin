@@ -1,21 +1,10 @@
 <?php
 global $wpdb;
-// $table_name = $wpdb->prefix . 'employees';
-// $fundraiser_id = get_query_var('fundraiserId');
-// $employee = $wpdb->get_row("SELECT * FROM $table_name WHERE id = $employee_id");
-// var_dump($fundraiser_id);
-// if ($employee) {
-//     echo "<h1>{$employee->name}</h1>";
-//     echo "<p><strong>Position:</strong> {$employee->position}</p>";
-//     echo "<p><strong>Bio:</strong> {$employee->bio}</p>";
-//     echo "<p><strong>Email:</strong> {$employee->email}</p>";
-//     echo "<p><strong>Phone:</strong> {$employee->phone}</p>";
-// } else {
-//     echo "<p>Employee not found.</p>";
-// }
+$tbl_collections = $wpdb->prefix . 'ezf_collections';
 
 $user = get_user_by('id', $atts['fundraiserId']);
-print_r($user);
+$collections = $wpdb->get_results($wpdb->prepare("select * from $tbl_collections where user_id=%s ORDER BY id DESC", $atts['fundraiserId']));
+print_r($collections);
 
 $img_url = plugin_dir_url(__FILE__) . '../../public/images/';
 ?>
@@ -74,74 +63,84 @@ $img_url = plugin_dir_url(__FILE__) . '../../public/images/';
           <hr>
           <div class="row mb-4">
             <div class="col-sm-2">
-              <p class="text-muted mb-0">Date</p>
+              <p class="text-muted mb-0 text-uppercase text-center fw-bold">Date</p>
             </div>
-            <div class="col-sm-2">
-              <p class="text-muted mb-0">Payment</p>
+            <div class="col-sm-3">
+              <p class="text-muted mb-0 text-uppercase text-center fw-bold">Payment</p>
             </div>
-            <div class="col-sm-2">
-              <p class="text-muted mb-0">Donated</p>
+            <div class="col-sm-3">
+              <p class="text-muted mb-0 text-uppercase text-center fw-bold">Amount</p>
             </div>
-            <div class="col-sm-2">
-              <p class="text-muted mb-0">Status</p>
+            <div class="col-sm-3">
+              <p class="text-muted mb-0 text-uppercase text-center fw-bold">Status</p>
             </div>
-            <div class="col-sm-2">
-              <p class="text-muted mb-0">Payment</p>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-2">
-              <p class="text-muted mb-0">Date</p>
-            </div>
-            <div class="col-sm-2">
-              <p class="text-muted mb-0">Payment</p>
-            </div>
-            <div class="col-sm-2">
-              <p class="text-muted mb-0">Donated</p>
-            </div>
-            <div class="col-sm-2">
-              <p class="text-muted mb-0">Status</p>
-            </div>
-            <div class="col-sm-2">
-              <p class="text-muted mb-0">Payment</p>
+            <div class="col-sm-1">
+              <p class="text-muted mb-0 text-uppercase text-center fw-bold">&nbsp;</p>
             </div>
           </div>
-          <hr>
-          <div class="row">
-            <div class="col-sm-2">
-              <p class="text-muted mb-0">Date</p>
+
+          <?php
+          if ($collections):
+            foreach ($collections as $collection):
+          ?>
+              <div class="row align-items-center">
+                <div class="col-sm-2">
+                  <p class="mb-0"><?php echo  date("m/d/y", strtotime($collection->date_collected)); ?></p>
+                </div>
+                <div class="col-sm-3">
+                  <p class="text-muted mb-0"><?php echo $collection->payment_method; ?></p>
+                </div>
+                <div class="col-sm-3">
+                  <p class="text-muted mb-0">$ <?php echo number_format_i18n($collection->amount,2); ?></p>
+                </div>
+                <div class="col-sm-3">
+                  <?php
+                  switch ($collection->status) {
+                    case 'Accepted':
+                      $css = "text-success";
+                      break;
+                    case 'Declined':
+                      $css = "text-danger";
+                      break;
+                    case 'Refund':
+                      $css = "text-warning";
+                      break;
+                    default:
+                    $css = "text-secondary";
+                  }
+                  ?>
+                  <p class="mb-0 <?php echo $css; ?>">
+                    <?php echo $collection->status; ?>
+                  </p>
+                </div>
+                <div class="col-sm-1">
+
+                  <div class="dropdown">
+                    <button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      <svg width="12" height="14" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+                        <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
+                      </svg>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-dark">
+                      <li><a class="dropdown-item text-uppercase" style="font-size: 12px; letter-spacing: 1px;" href="#">edit</a></li>
+                      <li><a class="dropdown-item text-danger text-uppercase" style="font-size: 12px; letter-spacing: 1px;" href="#">delete</a></li>
+                    </ul>
+                  </div>
+
+                </div>
+              </div>
+              <hr class="m-0">
+            <?php
+            endforeach;
+          else:
+            ?>
+            <div class="row">
+              <div class="text-center">No collections to display.</div>
             </div>
-            <div class="col-sm-2">
-              <p class="text-muted mb-0">Payment</p>
-            </div>
-            <div class="col-sm-2">
-              <p class="text-muted mb-0">Donated</p>
-            </div>
-            <div class="col-sm-2">
-              <p class="text-muted mb-0">Status</p>
-            </div>
-            <div class="col-sm-2">
-              <p class="text-muted mb-0">Payment</p>
-            </div>
-          </div>
-          <hr>
-          <div class="row">
-            <div class="col-sm-2">
-              <p class="text-muted mb-0">Date</p>
-            </div>
-            <div class="col-sm-2">
-              <p class="text-muted mb-0">Payment</p>
-            </div>
-            <div class="col-sm-2">
-              <p class="text-muted mb-0">Donated</p>
-            </div>
-            <div class="col-sm-2">
-              <p class="text-muted mb-0">Status</p>
-            </div>
-            <div class="col-sm-2">
-              <p class="text-muted mb-0">Payment</p>
-            </div>
-          </div>
+          <?php
+          endif;
+          ?>
+
         </div>
       </div>
 
@@ -243,16 +242,16 @@ $img_url = plugin_dir_url(__FILE__) . '../../public/images/';
             <div class="mb-3">
               <p class="mb-0">Date <sup class="text-body-secondary" style="font-size: 10px;">Required</sup></p>
               <label for="date_collected" class="form-label visually-hidden">Date</label>
-              <input type="text" class="form-control" id="date_collected" name="date_collected">
+              <input type="date" class="form-control" id="date_collected" name="date_collected">
             </div>
             <div class="mb-3">
               <p class="mb-0">Payment Method <sup class="text-body-secondary" style="font-size: 10px;">Required</sup></p>
-              <input type="radio" class="btn-check select-payment-method" name="payment_method" value="Voucher" id="option1" autocomplete="off" checked="">
-              <label class="btn btn-sm" for="option1">Voucher</label>
-              <input type="radio" class="btn-check select-payment-method" name="payment_method" value="Credit Card" id="option2" autocomplete="off">
-              <label class="btn btn-sm" for="option2">Credit Card</label>
-              <input type="radio" class="btn-check select-payment-method" name="payment_method" value="Check" id="option3" autocomplete="off">
-              <label class="btn btn-sm" for="option3">Check</label>
+              <input type="radio" class="btn-check select-payment-method" name="payment_method" value="Voucher" id="pm_voucher" autocomplete="off" checked="">
+              <label class="btn btn-sm" for="pm_voucher">Voucher</label>
+              <input type="radio" class="btn-check select-payment-method" name="payment_method" value="Credit Card" id="pm_credit_card" autocomplete="off">
+              <label class="btn btn-sm" for="pm_credit_card">Credit Card</label>
+              <input type="radio" class="btn-check select-payment-method" name="payment_method" value="Check" id="pm_check" autocomplete="off">
+              <label class="btn btn-sm" for="pm_check">Check</label>
             </div>
             <div class="mb-3 voucher-type">
               <p class="mb-0">Voucher/Type of Voucher</p>
@@ -279,16 +278,16 @@ $img_url = plugin_dir_url(__FILE__) . '../../public/images/';
               <label for="check_memo" class="form-label visually-hidden">Check Memo</label>
               <input type="text" class="form-control" id="check_memo" name="check_memo">
             </div>
-            <div>
+            <div class="mb-3">
               <p class="mb-0">Status <sup class="text-body-secondary" style="font-size: 10px;">Required</sup></p>
-              <input type="radio" class="btn-check" name="status" value="Pending" id="option1" autocomplete="off" checked="">
-              <label class="btn btn-sm" for="option1">Pending</label>
-              <input type="radio" class="btn-check" name="status" value="Accepted" id="option2" autocomplete="off">
-              <label class="btn btn-sm" for="option2">Accepted</label>
-              <input type="radio" class="btn-check" name="status" value="Declined" id="option3" autocomplete="off">
-              <label class="btn btn-sm" for="option3">Declined</label>
-              <input type="radio" class="btn-check" name="status" value="Refund" id="option4" autocomplete="off">
-              <label class="btn btn-sm" for="option4">Refund</label>
+              <input type="radio" class="btn-check" name="status" value="Pending" id="status_pending" autocomplete="off" checked="">
+              <label class="btn btn-sm" for="status_pending">Pending</label>
+              <input type="radio" class="btn-check" name="status" value="Accepted" id="status_accepted" autocomplete="off">
+              <label class="btn btn-sm" for="status_accepted">Accepted</label>
+              <input type="radio" class="btn-check" name="status" value="Declined" id="status_decline" autocomplete="off">
+              <label class="btn btn-sm" for="status_decline">Declined</label>
+              <input type="radio" class="btn-check" name="status" value="Refund" id="status_refund" autocomplete="off">
+              <label class="btn btn-sm" for="status_refund">Refund</label>
             </div>
           </div>
           <div class="modal-footer">

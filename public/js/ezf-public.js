@@ -16,20 +16,30 @@
       };
 
       // Send AJAX request
-      $.post(ezf_ajax_object.ajax_url, data, function (response) {
-        console.log('response: ',response);
+      // $.post(ezf_ajax_object.ajax_url, data, function (response) {
+      //   console.log('response: ',response);
+      //   if (response.success) {
+      //     $(".ezf-collection-form")[0].reset(); // Clear the form
+      //     $('.save-success').text(response.data);
+      //     $(".save-success").show().delay(5000).fadeOut();
+      //   } else {
+      //     $('.save-danger').text(response.data);
+      //     $(".save-danger").show().delay(5000).fadeOut();
+      //   }
+      //   return response;
+      // })
+      let posting = $.post(ezf_ajax_object.ajax_url, data);
+      posting.done(function (response) {
         if (response.success) {
           $(".ezf-collection-form")[0].reset(); // Clear the form
-          $('.save-success').text(response.data);
+          $(".save-success").text(response.data);
           $(".save-success").show().delay(5000).fadeOut();
+          $("#staticBackdrop").modal('hide').delay(5000).fadeOut();
         } else {
-          $('.save-danger').text(response.data);
+          $(".save-danger").text(response.data);
           $(".save-danger").show().delay(5000).fadeOut();
         }
-      })
-        .done(function () {})
-        .fail(function () {})
-        .always(function () {});
+      });
     });
   });
 })(jQuery);
