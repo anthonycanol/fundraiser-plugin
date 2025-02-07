@@ -4,7 +4,6 @@ $tbl_collections = $wpdb->prefix . 'ezf_collections';
 
 $user = get_user_by('id', $atts['fundraiserId']);
 $collections = $wpdb->get_results($wpdb->prepare("select * from $tbl_collections where user_id=%s ORDER BY id DESC", $atts['fundraiserId']));
-print_r($collections);
 
 $img_url = plugin_dir_url(__FILE__) . '../../public/images/';
 ?>
@@ -91,7 +90,7 @@ $img_url = plugin_dir_url(__FILE__) . '../../public/images/';
                   <p class="text-muted mb-0"><?php echo $collection->payment_method; ?></p>
                 </div>
                 <div class="col-sm-3">
-                  <p class="text-muted mb-0">$ <?php echo number_format_i18n($collection->amount,2); ?></p>
+                  <p class="text-muted text-end mb-0 d-flex justify-content-between"><span class="text-start d-inline">$</span> <?php echo number_format_i18n($collection->amount, 2); ?></p>
                 </div>
                 <div class="col-sm-3">
                   <?php
@@ -106,7 +105,7 @@ $img_url = plugin_dir_url(__FILE__) . '../../public/images/';
                       $css = "text-warning";
                       break;
                     default:
-                    $css = "text-secondary";
+                      $css = "text-secondary";
                   }
                   ?>
                   <p class="mb-0 <?php echo $css; ?>">
@@ -122,8 +121,8 @@ $img_url = plugin_dir_url(__FILE__) . '../../public/images/';
                       </svg>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-dark">
-                      <li><a class="dropdown-item text-uppercase" style="font-size: 12px; letter-spacing: 1px;" href="#">edit</a></li>
-                      <li><a class="dropdown-item text-danger text-uppercase" style="font-size: 12px; letter-spacing: 1px;" href="#">delete</a></li>
+                      <li><a class="dropdown-item text-uppercase update-link" style="font-size: 12px; letter-spacing: 1px;" data-bs-toggle="modal" data-bs-target="#updateCollection" data-id="<?php echo $collection->id; ?>">edit</a></li>
+                      <li><a class="dropdown-item text-danger text-uppercase delete-link" style="font-size: 12px; letter-spacing: 1px;" data-bs-toggle="modal" data-bs-target="#deleteCollection" data-id="<?php echo $collection->id; ?>">delete</a></li>
                     </ul>
                   </div>
 
@@ -218,7 +217,7 @@ $img_url = plugin_dir_url(__FILE__) . '../../public/images/';
     </div>
   </div>
 
-  <!-- Modal -->
+  <!-- Insert Modal -->
   <div class="modal fade container-fluid" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
@@ -291,9 +290,120 @@ $img_url = plugin_dir_url(__FILE__) . '../../public/images/';
             </div>
           </div>
           <div class="modal-footer">
-            <input type="text" name="user_id" value="<?php echo $user->ID; ?>" hidden>
+            <input type="hidden" name="user_id" value="<?php echo $user->ID; ?>" hidden>
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
             <button type="button" class="btn btn-primary save-collection">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Update Modal -->
+  <div class="modal fade container-fluid" id="updateCollection" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="updateCollection" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <form enctype="multipart/form-data" method="POST" class="ezf-update-collection-form" action="">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="updateCollection">Update Collection</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="alert alert-success save-success" role="alert">
+              A simple success alert—check it out!
+            </div>
+            <div class="alert alert-danger save-danger" role="alert">
+              A simple danger alert—check it out!
+            </div>
+            <div class="mb-3">
+              <p class="mb-0">Amount <sup class="text-body-secondary" style="font-size: 10px;">Required</sup></p>
+              <label for="amount" class="form-label visually-hidden">Amount</label>
+              <input type="text" class="form-control" id="amount" name="amount">
+            </div>
+            <div class="mb-3">
+              <p class="mb-0">Date <sup class="text-body-secondary" style="font-size: 10px;">Required</sup></p>
+              <label for="date_collected" class="form-label visually-hidden">Date</label>
+              <input type="date" class="form-control" id="date_collected" name="date_collected">
+            </div>
+            <div class="mb-3">
+              <p class="mb-0">Payment Method <sup class="text-body-secondary" style="font-size: 10px;">Required</sup></p>
+              <input type="radio" class="btn-check select-payment-method" name="payment_method" value="Voucher" id="pm_voucher" autocomplete="off">
+              <label class="btn btn-sm" for="pm_voucher">Voucher</label>
+              <input type="radio" class="btn-check select-payment-method" name="payment_method" value="Credit Card" id="pm_credit_card" autocomplete="off">
+              <label class="btn btn-sm" for="pm_credit_card">Credit Card</label>
+              <input type="radio" class="btn-check select-payment-method" name="payment_method" value="Check" id="pm_check" autocomplete="off">
+              <label class="btn btn-sm" for="pm_check">Check</label>
+            </div>
+            <div class="mb-3 voucher-type">
+              <p class="mb-0">Voucher/Type of Voucher</p>
+              <label for="voucher_type" class="form-label visually-hidden">Voucher/Type of Voucher</label>
+              <input type="text" class="form-control" id="voucher_type" name="voucher_type">
+            </div>
+            <div class="mb-3 card-holder-name">
+              <p class="mb-0">Card Holder Name</p>
+              <label for="card_holder_name" class="form-label visually-hidden">Card Holder Name</label>
+              <input type="text" class="form-control" id="card_holder_name" name="card_holder_name">
+            </div>
+            <div class="mb-3 card-number">
+              <p class="mb-0">Card Number</p>
+              <label for="card_number" class="form-label visually-hidden">Card Number</label>
+              <input type="text" class="form-control" id="card_number" name="card_number">
+            </div>
+            <div class="mb-3 check-number">
+              <p class="mb-0">Check Number</p>
+              <label for="check_number" class="form-label visually-hidden">Check Number</label>
+              <input type="text" class="form-control" id="check_number" name="check_number">
+            </div>
+            <div class="mb-3 check-memo">
+              <p class="mb-0">Check Memo</p>
+              <label for="check_memo" class="form-label visually-hidden">Check Memo</label>
+              <input type="text" class="form-control" id="check_memo" name="check_memo">
+            </div>
+            <div class="mb-3">
+              <p class="mb-0">Status <sup class="text-body-secondary" style="font-size: 10px;">Required</sup></p>
+              <input type="radio" class="btn-check" name="status" value="Pending" id="status_pending" autocomplete="off">
+              <label class="btn btn-sm" for="status_pending">Pending</label>
+              <input type="radio" class="btn-check" name="status" value="Accepted" id="status_accepted" autocomplete="off">
+              <label class="btn btn-sm" for="status_accepted">Accepted</label>
+              <input type="radio" class="btn-check" name="status" value="Declined" id="status_decline" autocomplete="off">
+              <label class="btn btn-sm" for="status_decline">Declined</label>
+              <input type="radio" class="btn-check" name="status" value="Refund" id="status_refund" autocomplete="off">
+              <label class="btn btn-sm" for="status_refund">Refund</label>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <input type="hidden" name="uid">
+            <input type="hidden" name="user_id" value="<?php echo $user->ID; ?>" hidden>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary update-collection">Update</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Modal -->
+  <div class="modal fade container-fluid" id="deleteCollection" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteCollection" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <form enctype="multipart/form-data" method="POST" class="ezf-delete-collection-form" action="">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="deleteCollection">Delete Collection</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="alert alert-success save-success" role="alert">
+              A simple success alert—check it out!
+            </div>
+            <div class="alert alert-danger save-danger" role="alert">
+              A simple danger alert—check it out!
+            </div>
+            Are you sure?
+          </div>
+          <div class="modal-footer">
+            <input type="hidden" name="uid">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary delete-collection">Delete</button>
           </div>
         </form>
       </div>

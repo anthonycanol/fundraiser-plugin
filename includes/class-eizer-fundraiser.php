@@ -182,6 +182,12 @@ class Eizer_Fundraiser {
 		// handle ajax events
 		$this->loader->add_action( 'wp_ajax_ezf_add_new_collection', $fundraisers, 'ezf_add_new_collection' );
 	    $this->loader->add_action( 'wp_ajax_nopriv_ezf_add_new_collection', $fundraisers, 'ezf_add_new_collection' );
+		$this->loader->add_action( 'wp_ajax_ezf_get_collection', $fundraisers, 'ezf_get_collection' );
+	    $this->loader->add_action( 'wp_ajax_nopriv_ezf_get_collection', $fundraisers, 'ezf_get_collection' );
+		$this->loader->add_action( 'wp_ajax_ezf_update_collection', $fundraisers, 'ezf_update_collection' );
+	    $this->loader->add_action( 'wp_ajax_nopriv_ezf_update_collection', $fundraisers, 'ezf_update_collection' );
+		$this->loader->add_action( 'wp_ajax_ezf_delete_collection', $fundraisers, 'ezf_delete_collection' );
+	    $this->loader->add_action( 'wp_ajax_nopriv_ezf_delete_collection', $fundraisers, 'ezf_delete_collection' );
 	}
 
 	/**
