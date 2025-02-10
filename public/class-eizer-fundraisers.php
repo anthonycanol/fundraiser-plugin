@@ -97,7 +97,6 @@ class Eizer_Fundraisers
 		wp_die();
 	}
 
-
 	function ezf_get_collection()
 	{
 		global $wpdb;
@@ -189,7 +188,7 @@ class Eizer_Fundraisers
 					$name = $a['name'];
 					$value = sanitize_text_field($a['value']);
 					$towhere->$name = $value;
-				} 
+				}
 			endforeach;
 		}
 

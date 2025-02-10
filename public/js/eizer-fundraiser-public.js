@@ -3,7 +3,31 @@
 
   $(function () {
     $(
-      ".save-success, .save-danger, .card-holder-name, .card-number, .check-number, .check-memo"
+      ".ezf-collection-form .save-success, .ezf-collection-form .save-danger, .ezf-collection-form .card-holder-name, .ezf-collection-form .card-number, .ezf-collection-form .check-number, .ezf-collection-form .check-memo"
+    ).hide();
+
+    $(
+      ".ezf-update-collection-form .save-success, .ezf-update-collection-form .save-danger, .ezf-update-collection-form .card-holder-name, .ezf-update-collection-form .card-number, .ezf-update-collection-form .check-number, .ezf-update-collection-form .check-memo"
+    ).hide();
+
+    $(
+      ".ezf-ra-form .save-success, .ezf-ra-form .save-danger"
+    ).hide();
+
+    $(
+      ".ezf-update-redeem-form .save-success, .ezf-update-redeem-form .save-danger"
+    ).hide();
+
+    $(
+      ".ezf-delete-redeem-form .save-success, .ezf-delete-redeem-form .save-danger"
+    ).hide();
+
+    $(
+      ".ezf-ccm-form .save-success, .ezf-ccm-form .save-danger"
+    ).hide();
+
+    $(
+      ".ezf-update-ccm-form .save-success, .ezf-update-ccm-form .save-danger"
     ).hide();
 
     $(".ezf-collection-form .select-payment-method").on("click", function (e) {
@@ -11,45 +35,54 @@
       console.log("val: ", val);
       if (val === "Voucher") {
         $(
-          ".voucher-type, .card-holder-name, .card-number, .check-number, .check-memo"
+          ".ezf-collection-form .voucher-type, .ezf-collection-form .card-holder-name, .ezf-collection-form .card-number, .ezf-collection-form .check-number, .check-memo"
         ).fadeOut();
-        $(".voucher-type").fadeIn();
-        
+        $(".ezf-collection-form .voucher-type").fadeIn();
       }
       if (val === "Credit Card") {
         $(
-          ".voucher-type, .card-holder-name, .card-number, .check-number, .check-memo"
+          ".ezf-collection-form .voucher-type, .ezf-collection-form .card-holder-name, .ezf-collection-form .card-number, .ezf-collection-form .check-number, .check-memo"
         ).fadeOut();
-        $(".card-holder-name, .card-number").fadeIn();
+        $(
+          ".ezf-collection-form .card-holder-name, .ezf-collection-form .card-number"
+        ).fadeIn();
       }
       if (val === "Check") {
         $(
-          ".voucher-type, .card-holder-name, .card-number, .check-number, .check-memo"
+          ".ezf-collection-form .voucher-type, .ezf-collection-form .card-holder-name, .ezf-collection-form .card-number, .check-number, .ezf-collection-form .check-memo"
         ).fadeOut();
-        $(".check-number, .check-memo").fadeIn();
+        $(
+          ".ezf-collection-form .check-number, .ezf-collection-form .check-memo"
+        ).fadeIn();
       }
     });
 
-    $(".ezf-update-collection-form .select-payment-method").on("click", function (e) {
+    $(".ezf-update-collection-form .select-payment-method").on(
+      "click",
+      function (e) {
         let val = $(this).val();
         console.log("val: ", val);
         if (val === "Voucher") {
           $(
-            ".voucher-type, .card-holder-name, .card-number, .check-number, .check-memo"
+            ".ezf-update-collection-form .voucher-type, .ezf-update-collection-form .card-holder-name, .ezf-update-collection-form .card-number, .ezf-update-collection-form .check-number, .ezf-update-collection-form .check-memo"
           ).fadeOut();
-          $(".voucher-type").fadeIn();
+          $(".ezf-update-collection-form .voucher-type").fadeIn();
         }
         if (val === "Credit Card") {
           $(
-            ".voucher-type, .card-holder-name, .card-number, .check-number, .check-memo"
+            ".ezf-update-collection-form .voucher-type, .ezf-update-collection-form .card-holder-name, .ezf-update-collection-form .card-number, .ezf-update-collection-form .check-number, .ezf-update-collection-form .check-memo"
           ).fadeOut();
-          $(".card-holder-name, .card-number").fadeIn();
+          $(
+            ".ezf-update-collection-form .card-holder-name, .ezf-update-collection-form .card-number"
+          ).fadeIn();
         }
         if (val === "Check") {
           $(
-            ".voucher-type, .card-holder-name, .card-number, .check-number, .check-memo"
+            ".ezf-update-collection-form .voucher-type, .ezf-update-collection-form .card-holder-name, .ezf-update-collection-form .card-number, .ezf-update-collection-form .check-number, .ezf-update-collection-form .check-memo"
           ).fadeOut();
-          $(".check-number, .check-memo").fadeIn();
+          $(
+            ".ezf-update-collection-form .check-number, .ezf-update-collection-form .check-memo"
+          ).fadeIn();
         }
       }
     );

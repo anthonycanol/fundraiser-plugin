@@ -173,6 +173,10 @@ class Eizer_Fundraiser {
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 
+		// $this->loader->add_action( 'init', $plugin_public, 'ezf_custom_rewrite_rule' );
+		// $this->loader->add_filter( 'query_vars', $plugin_public, 'ezf_add_query_vars' );
+		// $this->loader->add_action( 'template_redirect', $plugin_public, 'ezf_template_redirect' );
+
 		// Load the fundraisers class and create its hooks:
 	    require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-eizer-fundraisers.php';
 	    $fundraisers = new Eizer_Fundraisers();
@@ -180,6 +184,10 @@ class Eizer_Fundraiser {
 		$this->loader->add_action( 'init', $fundraisers, 'eizer_fundraiser_page_shortcode' );
 
 		// handle ajax events
+		$this->loader->add_action( 'wp_ajax_ezf_init_data', $fundraisers, 'ezf_init_data' );
+	    $this->loader->add_action( 'wp_ajax_nopriv_ezf_init_data', $fundraisers, 'ezf_init_data' );
+
+		// collection
 		$this->loader->add_action( 'wp_ajax_ezf_add_new_collection', $fundraisers, 'ezf_add_new_collection' );
 	    $this->loader->add_action( 'wp_ajax_nopriv_ezf_add_new_collection', $fundraisers, 'ezf_add_new_collection' );
 		$this->loader->add_action( 'wp_ajax_ezf_get_collection', $fundraisers, 'ezf_get_collection' );
@@ -188,6 +196,30 @@ class Eizer_Fundraiser {
 	    $this->loader->add_action( 'wp_ajax_nopriv_ezf_update_collection', $fundraisers, 'ezf_update_collection' );
 		$this->loader->add_action( 'wp_ajax_ezf_delete_collection', $fundraisers, 'ezf_delete_collection' );
 	    $this->loader->add_action( 'wp_ajax_nopriv_ezf_delete_collection', $fundraisers, 'ezf_delete_collection' );
+
+		// redeem
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-eizer-redeem.php';
+	    $redeem = new Eizer_Redeem();
+		$this->loader->add_action( 'wp_ajax_ezf_add_new_redeem', $redeem, 'ezf_add_new_redeem' );
+	    $this->loader->add_action( 'wp_ajax_nopriv_ezf_add_new_redeem', $redeem, 'ezf_add_new_redeem' );
+		$this->loader->add_action( 'wp_ajax_ezf_get_redeem', $redeem, 'ezf_get_redeem' );
+	    $this->loader->add_action( 'wp_ajax_nopriv_ezf_get_redeem', $redeem, 'ezf_get_redeem' );
+		$this->loader->add_action( 'wp_ajax_ezf_update_redeem', $redeem, 'ezf_update_redeem' );
+	    $this->loader->add_action( 'wp_ajax_nopriv_ezf_update_redeem', $redeem, 'ezf_update_redeem' );
+		$this->loader->add_action( 'wp_ajax_ezf_delete_redeem', $redeem, 'ezf_delete_redeem' );
+	    $this->loader->add_action( 'wp_ajax_nopriv_ezf_delete_redeem', $redeem, 'ezf_delete_redeem' );
+
+		// credit card machine
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-eizer-ccm.php';
+	    $ccm = new Eizer_Ccm();
+		$this->loader->add_action( 'wp_ajax_ezf_add_new_ccm', $ccm, 'ezf_add_new_ccm' );
+	    $this->loader->add_action( 'wp_ajax_nopriv_ezf_add_new_ccm', $ccm, 'ezf_add_new_ccm' );
+		$this->loader->add_action( 'wp_ajax_ezf_get_ccm', $ccm, 'ezf_get_ccm' );
+	    $this->loader->add_action( 'wp_ajax_nopriv_ezf_get_ccm', $ccm, 'ezf_get_ccm' );
+		$this->loader->add_action( 'wp_ajax_ezf_update_ccm', $ccm, 'ezf_update_ccm' );
+	    $this->loader->add_action( 'wp_ajax_nopriv_ezf_update_ccm', $ccm, 'ezf_update_ccm' );
+		$this->loader->add_action( 'wp_ajax_ezf_delete_ccm', $ccm, 'ezf_delete_ccm' );
+	    $this->loader->add_action( 'wp_ajax_nopriv_ezf_delete_ccm', $ccm, 'ezf_delete_ccm' );
 	}
 
 	/**

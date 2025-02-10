@@ -62,30 +62,30 @@ class Eizer_Fundraiser_Activator
 		) $charset_collate;";
 
 		$sql_cc_machine = "CREATE TABLE $tbl_cc_machine (
-	id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-	user_id mediumint(9) NOT NULL,
-	email varchar(100) NOT NULL,
-	cc_machine_name text,
-	cc_machine_number text,
-	status varchar(25) DEFAULT 'pending',
-	date_created datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
-	date_updated datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
-	PRIMARY KEY (id)
-) $charset_collate;";
+			id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+			user_id mediumint(9) NOT NULL,
+			email varchar(100) NULL default NULL,
+			cc_machine_name text,
+			cc_machine_number text,
+			status varchar(25) DEFAULT 'pending',
+			date_created datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+			date_updated datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+			PRIMARY KEY (id)
+		) $charset_collate;";
 
 		$sql_redeem = "CREATE TABLE $tbl_redeem (
-	id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-	user_id mediumint(9) NOT NULL,
-	email varchar(100) NOT NULL,
-	amount decimal(19,4) NULL default NULL,
-	check_number text,
-	check_name text,
-			check_memo text,
-	status varchar(25) DEFAULT 'pending',
-	date_created datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
-	date_updated datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
-	PRIMARY KEY (id)
-) $charset_collate;";
+			id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+			user_id mediumint(9) NOT NULL,
+			email varchar(100) NULL default NULL,
+			amount decimal(19,2) NULL default NULL,
+			check_number text,
+			check_name text,
+					check_memo text,
+			status varchar(25) DEFAULT 'pending',
+			date_created datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+			date_updated datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+			PRIMARY KEY (id)
+		) $charset_collate;";
 
 		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 		dbDelta($sql_collection);
