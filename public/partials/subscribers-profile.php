@@ -4,7 +4,11 @@ $tbl_collections = $wpdb->prefix . 'ezf_collections';
 $tbl_redeem = $wpdb->prefix . 'ezf_redeem';
 $tbl_cc_machine = $wpdb->prefix . 'ezf_cc_machine';
 
-$user = get_user_by('id', $atts['fundraiserId']);
+$user = get_user_by('id', $atts['fundraiserId']); // Get user by ID from URL
+if (!$user) {
+    echo 'User not found';
+    return;
+}
 $collections = $wpdb->get_results($wpdb->prepare("select * from $tbl_collections where user_id=%s ORDER BY id DESC", $atts['fundraiserId']));
 $redeems = $wpdb->get_results($wpdb->prepare("select * from $tbl_redeem where user_id=%s ORDER BY id DESC", $atts['fundraiserId']));
 $ccms = $wpdb->get_results($wpdb->prepare("select * from $tbl_cc_machine where user_id=%s ORDER BY id DESC", $atts['fundraiserId']));
@@ -81,19 +85,19 @@ endif;
           <hr>
           <div class="row mb-4">
             <div class="col-sm-2">
-              <p class="text-muted mb-0 text-uppercase text-center fw-bold">Date</p>
+              <p class="text-muted mb-0 text-uppercase fw-bold">Date</p>
             </div>
             <div class="col-sm-3">
-              <p class="text-muted mb-0 text-uppercase text-center fw-bold">Payment</p>
+              <p class="text-muted mb-0 text-uppercase fw-bold">Payment</p>
             </div>
             <div class="col-sm-3">
-              <p class="text-muted mb-0 text-uppercase text-center fw-bold">Amount</p>
+              <p class="text-muted mb-0 text-uppercase fw-bold">Amount</p>
             </div>
             <div class="col-sm-3">
-              <p class="text-muted mb-0 text-uppercase text-center fw-bold">Status</p>
+              <p class="text-muted mb-0 text-uppercase fw-bold">Status</p>
             </div>
             <div class="col-sm-1">
-              <p class="text-muted mb-0 text-uppercase text-center fw-bold">&nbsp;</p>
+              <p class="text-muted mb-0 text-uppercase fw-bold">&nbsp;</p>
             </div>
           </div>
 
@@ -110,7 +114,7 @@ endif;
                   <p class="text-muted mb-0"><?php echo $collection->payment_method; ?></p>
                 </div>
                 <div class="col-sm-3">
-                  <p class="text-muted text-end mb-0 d-flex justify-content-between"><span class="text-start d-inline">$</span> <?php echo number_format_i18n($collection->amount, 2); ?></p>
+                  <p class="text-muted mb-0 justify-content-between"><span class="text-start d-inline">$</span> <?php echo number_format_i18n($collection->amount, 2); ?></p>
                 </div>
                 <div class="col-sm-3">
                   <?php
@@ -173,16 +177,16 @@ endif;
               </div>
               <div class="row mb-1">
                 <div class="col-sm-3">
-                  <p class="text-muted mb-0 text-uppercase text-center fw-bold" style="font-size: .77rem;">Check #</p>
+                  <p class="text-muted mb-0 text-uppercase fw-bold" style="font-size: .77rem;">Check #</p>
                 </div>
                 <div class="col-sm-4">
-                  <p class="text-muted mb-0 text-uppercase text-center fw-bold" style="font-size: .77rem;">Amount</p>
+                  <p class="text-muted mb-0 text-uppercase fw-bold" style="font-size: .77rem;">Amount</p>
                 </div>
                 <div class="col-sm-3">
-                  <p class="text-muted mb-0 text-uppercase text-center fw-bold" style="font-size: .77rem;">Status</p>
+                  <p class="text-muted mb-0 text-uppercase fw-bold" style="font-size: .77rem;">Status</p>
                 </div>
                 <div class="col-sm-2">
-                  <p class="text-muted mb-0 text-uppercase text-center fw-bold" style="font-size: .77rem;">&nbsp;</p>
+                  <p class="text-muted mb-0 text-uppercase fw-bold" style="font-size: .77rem;">&nbsp;</p>
                 </div>
               </div>
 
@@ -257,16 +261,16 @@ endif;
 
               <div class="row mb-1">
                 <div class="col-sm-3">
-                  <p class="text-muted mb-0 text-uppercase text-center fw-bold" style="font-size: .77rem;">CCM #</p>
+                  <p class="text-muted mb-0 text-uppercase fw-bold" style="font-size: .77rem;">CCM #</p>
                 </div>
                 <div class="col-sm-4">
-                  <p class="text-muted mb-0 text-uppercase text-center fw-bold" style="font-size: .77rem;">CCM Name</p>
+                  <p class="text-muted mb-0 text-uppercase fw-bold" style="font-size: .77rem;">CCM Name</p>
                 </div>
                 <div class="col-sm-3">
-                  <p class="text-muted mb-0 text-uppercase text-center fw-bold" style="font-size: .77rem;">Status</p>
+                  <p class="text-muted mb-0 text-uppercase fw-bold" style="font-size: .77rem;">Status</p>
                 </div>
                 <div class="col-sm-2">
-                  <p class="text-muted mb-0 text-uppercase text-center fw-bold" style="font-size: .77rem;">&nbsp;</p>
+                  <p class="text-muted mb-0 text-uppercase fw-bold" style="font-size: .77rem;">&nbsp;</p>
                 </div>
               </div>
               <?php
@@ -379,10 +383,21 @@ endif;
               <label for="card_holder_name" class="form-label visually-hidden">Card Holder Name</label>
               <input type="text" class="form-control" id="card_holder_name" name="card_holder_name">
             </div>
-            <div class="mb-3 card-number">
+            <!-- <div class="mb-3 card-number">
               <p class="mb-0">Card Number</p>
               <label for="card_number" class="form-label visually-hidden">Card Number</label>
               <input type="text" class="form-control" id="card_number" name="card_number">
+            </div> -->
+            <div class="mb-3 card-number">
+              <label for="card_number" class="form-label">Credit Card Machine</label>
+              <select class="form-control" id="card_number" name="card_number">
+                <option value="">Select Credit Card Machine</option>
+                <?php 
+                foreach ($ccms as $ccm) {
+                  echo '<option value="' . $ccm->cc_machine_name. '">' . $ccm->cc_machine_name . '</option>';
+                }
+                ?>
+              </select>
             </div>
             <div class="mb-3 check-number">
               <p class="mb-0">Check Number</p>
@@ -509,12 +524,12 @@ endif;
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <div class="alert alert-success save-success" role="alert">
+            <!-- <div class="alert alert-success save-success" role="alert">
               A simple success alert—check it out!
             </div>
             <div class="alert alert-danger save-danger" role="alert">
               A simple danger alert—check it out!
-            </div>
+            </div> -->
             Are you sure?
           </div>
           <div class="modal-footer">
