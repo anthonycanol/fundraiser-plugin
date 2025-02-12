@@ -6,7 +6,8 @@ $tbl_cc_machine = $wpdb->prefix . 'ezf_cc_machine';
 
 $user = get_user_by('id', $atts['fundraiserId']); // Get user by ID from URL
 if (!$user) {
-    echo 'User not found';
+    // echo 'User not found';
+    echo do_shortcode('[eizer-fundraiser-my-page]');
     return;
 }
 $collections = $wpdb->get_results($wpdb->prepare("select * from $tbl_collections where user_id=%s ORDER BY id DESC", $atts['fundraiserId']));
