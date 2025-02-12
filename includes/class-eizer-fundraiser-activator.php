@@ -100,7 +100,5 @@ class Eizer_Fundraiser_Activator
 			__('Fundraiser'),
 			array()
 		);
-
-		flush_rewrite_rules();
 	}
 }

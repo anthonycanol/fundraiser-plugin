@@ -44,6 +44,9 @@ define( 'EIZER_FUNDRAISER_VERSION', '1.0.0' );
 function activate_eizer_fundraiser() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-eizer-fundraiser-activator.php';
 	Eizer_Fundraiser_Activator::activate();
+
+	// ezf_custom_rewrite_rule();
+    flush_rewrite_rules();
 }
 
 /**

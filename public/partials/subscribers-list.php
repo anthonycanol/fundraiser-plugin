@@ -20,7 +20,7 @@ $img_url = plugin_dir_url(__FILE__) . '../../public/images/';
       <?php foreach ($users as $user): ?>
         <?php // print_r($user); ?>
         <div class="col">
-          <a href="ezf_fundraiser/<?php echo $user->ID; ?>">
+          <a href="<?php echo home_url('ezfFundraiser/'+$user->ID); ?>">
             <div class="card h-100 foundraiser" id="ezf-<?php echo $user->ID; ?>">
               <img src="<?php echo $img_url; ?>person.png" class="card-img-top" alt="profile image">
               <div class="card-body text-center">

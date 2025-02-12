@@ -108,11 +108,11 @@ class Eizer_Fundraiser_Public
 		wp_enqueue_script($this->plugin_name . "-bootstrapjs", '//cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js', array('jquery'), $this->version, true);
 		wp_enqueue_script($this->plugin_name . "-ezfpublicjs", plugin_dir_url(__FILE__) . 'js/eizer-fundraiser-public.js', array('jquery'), $this->version, true);
 	}
-	
+
 	// Add custom rewrite rule
 	function ezf_custom_rewrite_rule()
 	{
-		add_rewrite_rule('^ezf_fundraiser/([0-9]+)/?', 'index.php?ezf_fundraiser_id=$matches[1]', 'top');
+		add_rewrite_rule('^ezfFundraiser/([0-9]+)/?', 'index.php?ezf_fundraiser_id=$matches[1]', 'top');
 	}
 
 	// Add query var for custom pages
@@ -126,14 +126,12 @@ class Eizer_Fundraiser_Public
 	function ezf_template_redirect()
 	{
 		$user_id = get_query_var('ezf_fundraiser_id');
+		
 		if ($user_id) {
-			status_header(200);
-			ob_start();
-			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/partials/subscribers-profile.php';
-			return ob_get_clean();
-		} else {
-			wp_redirect(home_url('/404'));
-			exit;
+				$new_template =  plugin_dir_path( __FILE__ ) . 'partials/ezf-fundraiser.php';
+				return $new_template;
+		
 		}
+		return;
 	}
 }

@@ -173,9 +173,7 @@ class Eizer_Fundraiser {
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 
-		// $this->loader->add_action( 'init', $plugin_public, 'ezf_custom_rewrite_rule' );
-		// $this->loader->add_filter( 'query_vars', $plugin_public, 'ezf_add_query_vars' );
-		// $this->loader->add_action( 'template_redirect', $plugin_public, 'ezf_template_redirect' );
+		
 
 		// Load the fundraisers class and create its hooks:
 	    require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-eizer-fundraisers.php';
@@ -220,6 +218,11 @@ class Eizer_Fundraiser {
 	    $this->loader->add_action( 'wp_ajax_nopriv_ezf_update_ccm', $ccm, 'ezf_update_ccm' );
 		$this->loader->add_action( 'wp_ajax_ezf_delete_ccm', $ccm, 'ezf_delete_ccm' );
 	    $this->loader->add_action( 'wp_ajax_nopriv_ezf_delete_ccm', $ccm, 'ezf_delete_ccm' );
+
+
+		$this->loader->add_action( 'init', $plugin_public, 'ezf_custom_rewrite_rule' );
+		$this->loader->add_filter( 'query_vars', $plugin_public, 'ezf_add_query_vars' );
+		$this->loader->add_filter( 'template_include', $plugin_public, 'ezf_template_redirect' );
 	}
 
 	/**
