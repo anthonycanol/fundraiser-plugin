@@ -24,6 +24,7 @@ class Eizer_Fundraisers
 	function eizer_fundraiser_page_shortcode($atts)
 	{
 		add_shortcode('eizer-fundraiser-page', array($this, 'eizer_fundraiser_page'));
+		add_shortcode('eizer-fundraiser-my-page', array($this, 'eizer_fundraiser_my_page'));
 	}
 
 	function eizer_fundraisers_list()
@@ -38,13 +39,26 @@ class Eizer_Fundraisers
 	function eizer_fundraiser_page($atts)
 	{
 		$atts = shortcode_atts([
-			'fundraiserId'   => '2',
+			'fundraiserId'   => (isset($_GET['fundraiser'])) ? $_GET['fundraiser'] : '',
 		], $atts, 'eizer-fundraiser-page');
-
+	
 		ob_start();
-
+	
 		include('partials/subscribers-profile.php');
+	
+		return ob_get_clean();
+	}
 
+	function eizer_fundraiser_my_page($atts)
+	{
+		$atts = shortcode_atts([
+			'fundraiserId'   => get_current_user_id() ,
+		], $atts, 'eizer-fundraiser-my-page');
+	
+		ob_start();
+	
+		include('partials/subscribers-profile.php');
+	
 		return ob_get_clean();
 	}
 
