@@ -33,6 +33,7 @@ class Eizer_Fundraisers
 		include('partials/subscribers-list.php');
 
 		return ob_get_clean();
+		exit();
 	}
 
 	function eizer_fundraiser_page($atts)
