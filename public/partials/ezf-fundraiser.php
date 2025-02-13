@@ -12,7 +12,7 @@ $tbl_cc_machine = $wpdb->prefix . 'ezf_cc_machine';
 
 // Get the employee_id from the query variable
 $user_id = get_query_var('ezf_fundraiser_id');
-
+var_dump($user_id);
 $user = get_user_by('id', $user_id);
 $collections = $wpdb->get_results($wpdb->prepare("select * from $tbl_collections where user_id=%s ORDER BY id DESC", $user_id));
 $redeems = $wpdb->get_results($wpdb->prepare("select * from $tbl_redeem where user_id=%s ORDER BY id DESC", $user_id));

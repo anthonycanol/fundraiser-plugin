@@ -222,7 +222,7 @@ class Eizer_Fundraiser {
 
 		$this->loader->add_action( 'init', $plugin_public, 'ezf_custom_rewrite_rule' );
 		$this->loader->add_filter( 'query_vars', $plugin_public, 'ezf_add_query_vars' );
-		$this->loader->add_filter( 'template_include', $plugin_public, 'ezf_template_redirect' );
+		$this->loader->add_filter( 'template_redirect', $plugin_public, 'ezf_template_redirect' );
 	}
 
 	/**

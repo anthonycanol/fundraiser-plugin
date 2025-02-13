@@ -116,22 +116,29 @@ class Eizer_Fundraiser_Public
 	}
 
 	// Add query var for custom pages
-	function ezf_add_query_vars($vars)
+	function ezf_add_query_vars($query_vars)
 	{
-		$vars[] = 'ezf_fundraiser_id';
-		return $vars;
+		$query_vars[] = 'ezf_fundraiser_id';
+		return $query_vars;
 	}
 
 	// Template redirect for custom pages
-	function ezf_template_redirect()
+	function ezf_template_redirect($page_template)
 	{
-		$user_id = get_query_var('ezf_fundraiser_id');
-		
-		if ($user_id) {
-				$new_template =  plugin_dir_path( __FILE__ ) . 'partials/ezf-fundraiser.php';
-				return $new_template;
-		
+		// $user_id = get_query_var('ezf_fundraiser_id');
+		if (get_query_var('ezf_fundraiser_id')) {
+			require_once(plugin_dir_path(__FILE__) . 'partials/ezf-fundraiser.php');
+			exit();
 		}
-		return;
+		return $page_template;
+
+		// if ( get_query_var( 'ezf_fundraiser_id' ) ) {
+		// 	ob_start();
+		// 	load_template(plugin_dir_path( __FILE__ ) . 'partials/ezf-fundraiser.php');
+		// 	$new_template = ob_get_contents();
+		// 	ob_end_clean();
+		// 	return $new_template;
+		// 	exit;
+		//  }
 	}
 }
