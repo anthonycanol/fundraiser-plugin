@@ -130,6 +130,15 @@ class Eizer_Fundraiser_Admin
 			'eizer-ccm',         // Menu slug
 			array($this, 'eizer_ccm_page')     // Callback function
 		);
+
+		add_submenu_page(
+			'eizer-main-menu',          // Parent slug
+			'Redeems',         // Page title
+			'Redeems',             // Menu title
+			'manage_options',        // Capability
+			'eizer-redeem',         // Menu slug
+			array($this, 'eizer_redeem_page')     // Callback function
+		);
 	}
 
 	// eizer fundraiser plugin home page
@@ -144,9 +153,15 @@ class Eizer_Fundraiser_Admin
 		include(plugin_dir_path(__FILE__) . 'partials/eizer-fundraiser-admin-display.php');
 	}
 
-	// eizer fundraiser plugin home page
+	// credit card machine page
 	function eizer_ccm_page()
 	{
 		include(plugin_dir_path(__FILE__) . 'partials/credit-card-machine-list.php');
+	}
+
+	// redeem page
+	function eizer_redeem_page()
+	{
+		include(plugin_dir_path(__FILE__) . 'partials/redeem-list.php');
 	}
 }

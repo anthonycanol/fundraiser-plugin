@@ -67,7 +67,7 @@ class Eizer_Fundraiser_Activator
 			email varchar(100) NULL default NULL,
 			cc_machine_name text,
 			cc_machine_number text,
-			status varchar(25) DEFAULT 'pending',
+			status varchar(25) DEFAULT 'Available',
 			date_created datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
 			date_updated datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
 			PRIMARY KEY (id)
@@ -81,7 +81,7 @@ class Eizer_Fundraiser_Activator
 			check_number text,
 			check_name text,
 					check_memo text,
-			status varchar(25) DEFAULT 'pending',
+			status varchar(25) DEFAULT 'Pending',
 			date_created datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
 			date_updated datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
 			PRIMARY KEY (id)

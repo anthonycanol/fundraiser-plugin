@@ -1,24 +1,15 @@
 <?php
-class Eizer_Redeem
+class Eizer_Redeem_Admin
 {
-    protected $helper;
+	public function __construct()
+	{  
+        
+	}
 
-    public function __construct()
-    {
-        $this->load_helper();
-    }
-
-    private function load_helper()
-    {
-        require_once plugin_dir_path(dirname(__FILE__)) . 'public/class-eizer-helper.php';
-
-        $this->helper = new Eizer_Helper();
-    }
-
-    function ezf_add_new_redeem()
+    public function ezf_add_new_ccm()
     {
         global $wpdb;
-        $tbl_redeem = $wpdb->prefix . 'ezf_redeem';
+        $tbl_cc_machine = $wpdb->prefix . 'ezf_cc_machine';
         $toinsert = new StdClass();
 
         if (!check_ajax_referer('my_ajax_nonce', 'nonce', false)) {
@@ -37,19 +28,17 @@ class Eizer_Redeem
 
         // Insert data into the custom table
         $result = $wpdb->insert(
-            $tbl_redeem,
+            $tbl_cc_machine,
             [
-                "amount"  => $toinsert->amount,
-                "check_name"  => '',
-                "check_number"  => '',
-                "check_memo"  => '',
-                "status"  => 'Pending',
+                "cc_machine_name"  => $toinsert->ccm_name,
+                "cc_machine_number"  => $toinsert->ccm_number,
+                "status"  => $toinsert->ccm_add_status,
                 "user_id" => $toinsert->user_id,
                 "date_created" => $now->format('Y-m-d H:i:s'),
                 "date_updated" => $now->format('Y-m-d H:i:s')
             ]
         );
-
+        
         // Check if the data was inserted successfully
         if ($result) {
             wp_send_json_success('Data saved successfully!');
@@ -108,11 +97,12 @@ class Eizer_Redeem
         $result = $wpdb->update(
             $tbl_redeem,
             [
+                "user_id"  => $toupdate->user_id,
                 "amount"  => $toupdate->redeem_update_amount,
-                "check_name"  => $toupdate->redeem_update_check_name,
                 "check_number"  => $toupdate->redeem_update_check_number,
+                "check_name"  => $toupdate->redeem_update_check_name,
                 "check_memo"  => $toupdate->redeem_update_check_memo,
-                "status"  => $toupdate->redeem_update_status,
+                "status"  => $toupdate->ccm_update_status,
                 "date_updated" => $now->format('Y-m-d H:i:s')
             ],
             [
@@ -168,4 +158,5 @@ class Eizer_Redeem
 
         wp_die();
     }
+
 }

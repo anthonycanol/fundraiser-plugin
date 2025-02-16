@@ -181,7 +181,7 @@ endif;
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#redeemModal">Add</button>
               </div>
               <div class="row mb-1">
-                <div class="col-sm-3">
+                <div class="col-sm-5">
                   <p class="text-muted mb-0 text-uppercase text-center fw-bold" style="font-size: .77rem;">Check #</p>
                 </div>
                 <div class="col-sm-4">
@@ -190,9 +190,9 @@ endif;
                 <div class="col-sm-3">
                   <p class="text-muted mb-0 text-uppercase text-center fw-bold" style="font-size: .77rem;">Status</p>
                 </div>
-                <div class="col-sm-2">
+                <!-- <div class="col-sm-2">
                   <p class="text-muted mb-0 text-uppercase text-center fw-bold" style="font-size: .77rem;">&nbsp;</p>
-                </div>
+                </div> -->
               </div>
 
               <?php
@@ -201,7 +201,7 @@ endif;
                   $total_redeems += $redeem->amount;
               ?>
                   <div class="row align-items-center mb-1">
-                    <div class="col-sm-3">
+                    <div class="col-sm-5">
                       <p class="text-muted mb-0 text-uppercase" style="font-size: .77rem;"><?php echo $redeem->check_number; ?></p>
                     </div>
                     <div class="col-sm-4">
@@ -225,7 +225,7 @@ endif;
                       ?>
                       <p class="text-muted mb-0 text-uppercase text-center <?php echo $css; ?>" style="font-size: .77rem;"><?php echo $redeem->status; ?></p>
                     </div>
-                    <div class="col-sm-2">
+                    <!-- <div class="col-sm-2">
 
                       <div class="dropdown">
                         <button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -239,7 +239,7 @@ endif;
                         </ul>
                       </div>
 
-                    </div>
+                    </div> -->
                   </div>
                   <hr class="m-0">
                 <?php
@@ -261,32 +261,32 @@ endif;
             <div class="card-body">
               <div class="d-flex gap-3 justify-content-between align-items-center mb-1">
                 <p class="mb-0">Credit Card Machine</p>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ccmModal">Add</button>
+                <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ccmModal">Add</button> -->
               </div>
 
               <div class="row mb-1">
-                <div class="col-sm-3">
+                <div class="col-sm-4">
                   <p class="text-muted mb-0 text-uppercase text-center fw-bold" style="font-size: .77rem;">CCM #</p>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-5">
                   <p class="text-muted mb-0 text-uppercase text-center fw-bold" style="font-size: .77rem;">CCM Name</p>
                 </div>
                 <div class="col-sm-3">
                   <p class="text-muted mb-0 text-uppercase text-center fw-bold" style="font-size: .77rem;">Status</p>
                 </div>
-                <div class="col-sm-2">
+                <!-- <div class="col-sm-2">
                   <p class="text-muted mb-0 text-uppercase text-center fw-bold" style="font-size: .77rem;">&nbsp;</p>
-                </div>
+                </div> -->
               </div>
               <?php
               if ($ccms):
                 foreach ($ccms as $ccm):
               ?>
                   <div class="row align-items-center mb-1">
-                    <div class="col-sm-3">
+                    <div class="col-sm-4">
                       <p class="text-muted mb-0 text-uppercase" style="font-size: .77rem;"><?php echo $ccm->cc_machine_number; ?></p>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-5">
                       <p class="text-muted mb-0 text-uppercase" style="font-size: .77rem;"><?php echo $ccm->cc_machine_name; ?></p>
                     </div>
                     <div class="col-sm-3">
@@ -307,7 +307,7 @@ endif;
                       ?>
                       <p class="text-muted mb-0 text-uppercase text-center <?php echo $css; ?>" style="font-size: .77rem;"><?php echo $ccm->status; ?></p>
                     </div>
-                    <div class="col-sm-2">
+                    <!-- <div class="col-sm-2">
 
                       <div class="dropdown">
                         <button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -316,12 +316,12 @@ endif;
                           </svg>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-dark">
-                          <li><a class="dropdown-item text-uppercase update-link" style="font-size: 12px; letter-spacing: 1px;" data-bs-toggle="modal" data-bs-target="#updateCcm" data-id="<?php echo $ccm->id; ?>">edit</a></li>
-                          <li><a class="dropdown-item text-danger text-uppercase delete-link" style="font-size: 12px; letter-spacing: 1px;" data-bs-toggle="modal" data-bs-target="#deleteCcm" data-id="<?php echo $ccm->id; ?>">delete</a></li>
+                          <li><a class="dropdown-item text-uppercase update-link" style="font-size: 12px; letter-spacing: 1px;" data-bs-toggle="modal" data-bs-target="#updateCcm" data-id="<?php //echo $ccm->id; ?>">edit</a></li>
+                          <li><a class="dropdown-item text-danger text-uppercase delete-link" style="font-size: 12px; letter-spacing: 1px;" data-bs-toggle="modal" data-bs-target="#deleteCcm" data-id="<?php //echo $ccm->id; ?>">delete</a></li>
                         </ul>
                       </div>
 
-                    </div>
+                    </div> -->
                   </div>
                   <hr class="m-0">
                 <?php

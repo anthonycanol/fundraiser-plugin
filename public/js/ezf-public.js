@@ -236,8 +236,12 @@
         if (response.success) {
           $(".ezf-ra-form")[0].reset(); // Clear the form
           $(".ezf-ra-form .save-success").text(response.data);
-          $(".ezf-ra-form .save-success").show().delay(5000).fadeOut();
-          $("#redeemModal").modal("hide").delay(5000).fadeOut();
+          $(".ezf-ra-form .save-success").show()
+                  .delay(3000)
+                  .queue(function (n) {
+                    $("#redeemModal").modal("hide").fadeOut();
+                    window.location.reload();
+                  });
         } else {
           $(".ezf-ra-form .save-danger").text(response.data);
           $(".ezf-ra-form .save-danger").show().delay(5000).fadeOut();

@@ -15,7 +15,7 @@
             <label for="amount" class="form-label visually-hidden">Amount</label>
             <input type="text" class="form-control" id="amount" name="amount">
         </div>
-        <div class="mb-3 check-name">
+        <!-- <div class="mb-3 check-name">
             <p class="mb-0">Check Name</p>
             <label for="check_name" class="form-label visually-hidden">Check Name</label>
             <input type="text" class="form-control" id="check_name" name="check_name">
@@ -40,7 +40,7 @@
             <label class="btn btn-sm" for="redeem_add_status_decline">Declined</label>
             <input type="radio" class="btn-check" name="redeem_add_status" value="Refund" id="redeem_add_status_refund" autocomplete="off">
             <label class="btn btn-sm" for="redeem_add_status_refund">Refund</label>
-        </div>
+        </div> -->
     </div>
     <div class="modal-footer">
         <input type="hidden" name="user_id" value="<?php echo $user->ID; ?>" hidden>
