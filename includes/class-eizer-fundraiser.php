@@ -157,6 +157,18 @@ class Eizer_Fundraiser {
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'eizer_fundraiser_add_plugin_menu' );
+
+		// credit card machine
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-eizer-ccm.php';
+	    $ccm_admin = new Eizer_Ccm_Admin();
+		$this->loader->add_action( 'wp_ajax_ezf_add_new_ccm', $ccm_admin, 'ezf_add_new_ccm' );
+	    $this->loader->add_action( 'wp_ajax_nopriv_ezf_add_new_ccm', $ccm_admin, 'ezf_add_new_ccm' );
+		$this->loader->add_action( 'wp_ajax_ezf_get_ccm', $ccm_admin, 'ezf_get_ccm' );
+	    $this->loader->add_action( 'wp_ajax_nopriv_ezf_get_ccm', $ccm_admin, 'ezf_get_ccm' );
+		$this->loader->add_action( 'wp_ajax_ezf_update_ccm', $ccm_admin, 'ezf_update_ccm' );
+	    $this->loader->add_action( 'wp_ajax_nopriv_ezf_update_ccm', $ccm_admin, 'ezf_update_ccm' );
+		$this->loader->add_action( 'wp_ajax_ezf_delete_ccm', $ccm_admin, 'ezf_delete_ccm' );
+	    $this->loader->add_action( 'wp_ajax_nopriv_ezf_delete_ccm', $ccm_admin, 'ezf_delete_ccm' );
 	}
 
 	/**

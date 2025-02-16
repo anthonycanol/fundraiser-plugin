@@ -20,7 +20,8 @@
  * @subpackage Eizer_Fundraiser/admin
  * @author     Anthony Canol <hay.an2ny@gmail.com>
  */
-class Eizer_Fundraiser_Admin {
+class Eizer_Fundraiser_Admin
+{
 
 	/**
 	 * The ID of this plugin.
@@ -47,11 +48,11 @@ class Eizer_Fundraiser_Admin {
 	 * @param      string    $plugin_name       The name of this plugin.
 	 * @param      string    $version    The version of this plugin.
 	 */
-	public function __construct( $plugin_name, $version ) {
+	public function __construct($plugin_name, $version)
+	{
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
-
 	}
 
 	/**
@@ -59,7 +60,8 @@ class Eizer_Fundraiser_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_styles() {
+	public function enqueue_styles()
+	{
 
 		/**
 		 * This function is provided for demonstration purposes only.
@@ -72,9 +74,9 @@ class Eizer_Fundraiser_Admin {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/eizer-fundraiser-admin.css', array(), $this->version, 'all' );
-
+		wp_enqueue_style('bootstrap', '//cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css', [], $this->version, 'all');
+		wp_enqueue_style('font-awesome', '//cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css', [], $this->version, 'all');
+		wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/eizer-fundraiser-admin.css', array(), $this->version, 'all');
 	}
 
 	/**
@@ -82,7 +84,8 @@ class Eizer_Fundraiser_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_scripts() {
+	public function enqueue_scripts()
+	{
 
 		/**
 		 * This function is provided for demonstration purposes only.
@@ -95,52 +98,55 @@ class Eizer_Fundraiser_Admin {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/eizer-fundraiser-admin.js', array( 'jquery' ), $this->version, false );
-
+		
+		wp_enqueue_script( 'ezf-admin-js', plugin_dir_url(__FILE__) . 'js/ezf-admin.js', array('jquery'), $this->version, true);
+		wp_localize_script( 'ezf-admin-js', 'ajax_object', [
+            'ajaxurl' => admin_url( 'admin-ajax.php' ),
+			'nonce' => wp_create_nonce('my_ajax_nonce'),
+        ]);
+		wp_enqueue_script($this->plugin_name . "-admin-bootstrapjs", '//cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js', array('jquery'), $this->version, true);
+		wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/eizer-fundraiser-admin.js', array('jquery'), $this->version, true);
 	}
 
 	// add plugin menu
-	function eizer_fundraiser_add_plugin_menu() {
+	function eizer_fundraiser_add_plugin_menu()
+	{
 		add_menu_page(
 			'Eizer Fundraiser',
 			'Eizer Fundraiser',
 			'manage_options',
-			'eizer-index', 
-			array( $this, 'eizer_fundraiser_plugin_home_page' ),
-			'', 
+			'eizer-main-menu',
+			array($this, 'eizer_fundraiser_plugin_home_page'),
+			'',
 			6
 		);
 		// add_submenu_page( 'vea_api', 'Shortcodes', 'Shortcodes', 'manage_options', 'vea_api-shortcode', array( $this, 'vea_api_plugin_shortcode_page' ) );
+
+		add_submenu_page(
+			'eizer-main-menu',          // Parent slug
+			'Credit Card Machine',         // Page title
+			'Credit Card Machine',             // Menu title
+			'manage_options',        // Capability
+			'eizer-ccm',         // Menu slug
+			array($this, 'eizer_ccm_page')     // Callback function
+		);
 	}
 
 	// eizer fundraiser plugin home page
-	function eizer_fundraiser_plugin_home_page() {
+	function eizer_fundraiser_plugin_home_page()
+	{
 
 		if (!current_user_can('manage_options')) {
-			echo('You do not have sufficient permissions to access this page.');
+			echo ('You do not have sufficient permissions to access this page.');
 			return;
 		}
 
-		// Add error/update messages
-
-        // Check if the user have submitted the settings,
-        // WordPress will add the "settings-updated" $_GET parameter to the url
-        // if ( isset( $_GET['settings-updated'] ) ) {
-        //     // Add settings saved message with the class of "updated"
-        //     add_settings_error( 'vea-api-section', 'vea_api_message', __( 'Settings Saved', 'vea-api' ), 'updated' );
-        // }
-
-        // Show error/update messages
-        // settings_errors( 'vea-api-section' );
-
-		// $output_header = $this->output_header( );
-
-		?>
-		<div class="wrap">
-			<div>Homepage</div>
-		</div>
-		<?php
+		include(plugin_dir_path(__FILE__) . 'partials/eizer-fundraiser-admin-display.php');
 	}
 
+	// eizer fundraiser plugin home page
+	function eizer_ccm_page()
+	{
+		include(plugin_dir_path(__FILE__) . 'partials/credit-card-machine-list.php');
+	}
 }
