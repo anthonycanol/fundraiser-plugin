@@ -40,7 +40,7 @@
   </div>
   <div class="modal-footer">
     <input type="hidden" name="uid">
-    <input type="hidden" name="user_id" value="<?php echo $user->ID; ?>" hidden>
+    <input type="hidden" name="user_id" hidden>
     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
     <button type="button" class="btn btn-primary update-redeem">Update</button>
   </div>

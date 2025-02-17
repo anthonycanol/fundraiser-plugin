@@ -273,6 +273,7 @@
             $(
               ".ezf-update-redeem-form input:radio[value='" + a.status + "']"
             ).attr("checked", "checked");
+            $(".ezf-update-redeem-form input[name='user_id']").val(a.user_id);
             $(".ezf-update-redeem-form input[name='uid']").val(a.id);
           }
         },

@@ -55,35 +55,21 @@
         nonce: ezf_ajax_object.nonce, // Nonce for security
         data: { id: id }, // Data to send
       };
-
+      console.log("data: ", data);
       let getdata = $.post(ezf_ajax_object.ajax_url, data);
       getdata.done(function (response) {
         if (response.success) {
           let a = response.data;
-          let d = new Date(a.date_collected);
-          var dd = d.getDate();
-          var mm = (d.getMonth() + 1).toString().padStart(2, "0");
-          var yyyy = d.getFullYear();
+          let d;
+          if (a.date_collected == "0000-00-00 00:00:00") {
+            d = new Date();
+          } else {
+            d = new Date(a.date_collected);
+          }
+          let dd = d.getDate();
+          let mm = (d.getMonth() + 1).toString().padStart(2, "0");
+          let yyyy = d.getFullYear();
           let dater = yyyy + "-" + mm + "-" + dd;
-
-          // if (a.payment_method === "Voucher") {
-          //   $(
-          //     ".voucher-type, .card-holder-name, .card-number, .check-number, .check-memo"
-          //   ).fadeOut();
-          //   $(".voucher-type").fadeIn();
-          // }
-          // if (a.payment_method === "Credit Card") {
-          //   $(
-          //     ".voucher-type, .card-holder-name, .card-number, .check-number, .check-memo"
-          //   ).fadeOut();
-          //   $(".card-holder-name, .card-number").fadeIn();
-          // }
-          // if (a.payment_method === "Check") {
-          //   $(
-          //     ".voucher-type, .card-holder-name, .card-number, .check-number, .check-memo"
-          //   ).fadeOut();
-          //   $(".check-number, .check-memo").fadeIn();
-          // }
 
           $(".ezf-update-collection-form")[0].reset(); // Clear the form
           $(".ezf-update-collection-form input[name='amount']").val(a.amount);
@@ -91,7 +77,7 @@
             dater
           );
           $(
-            ".ezf-update-collection-form input:radio[value='" +
+            ".ezf-update-collection-form input[name='collection_update_payment_method'][value='" +
               a.payment_method +
               "']"
           ).prop("checked", true);
@@ -110,6 +96,30 @@
           $(".ezf-update-collection-form input[name='check_memo']").val(
             a.check_memo
           );
+
+          if (a.payment_method === "Voucher") {
+            $(
+              ".ezf-update-collection-form .voucher-type, .ezf-update-collection-form .card-holder-name, .ezf-update-collection-form .card-number, .ezf-update-collection-form .check-number, .ezf-update-collection-form .check-memo"
+            ).fadeOut();
+            $(".ezf-update-collection-form .voucher-type").fadeIn();
+          }
+          if (a.payment_method === "Credit Card") {
+            $(
+              ".ezf-update-collection-form .voucher-type, .ezf-update-collection-form .card-holder-name, .ezf-update-collection-form .card-number, .ezf-update-collection-form .check-number, .ezf-update-collection-form .check-memo"
+            ).fadeOut();
+            $(
+              ".ezf-update-collection-form .card-holder-name, .ezf-update-collection-form .card-number"
+            ).fadeIn();
+          }
+          if (a.payment_method === "Check") {
+            $(
+              ".ezf-update-collection-form .voucher-type, .ezf-update-collection-form .card-holder-name, .ezf-update-collection-form .card-number, .ezf-update-collection-form .check-number, .ezf-update-collection-form .check-memo"
+            ).fadeOut();
+            $(
+              ".ezf-update-collection-form .check-number, .ezf-update-collection-form .check-memo"
+            ).fadeIn();
+          }
+
           $(
             ".ezf-update-collection-form input:radio[value='" + a.status + "']"
           ).attr("checked", "checked");
@@ -131,7 +141,7 @@
           nonce: ezf_ajax_object.nonce, // Nonce for security
           data: x, // Data to send
         };
-
+        console.log("data: ", data);
         let posting = $.post(ezf_ajax_object.ajax_url, data);
         posting.done(function (response) {
           console.log("response: ", response);
@@ -141,14 +151,16 @@
             $(".ezf-update-collection-form .save-success").text(response.data);
             $(".ezf-update-collection-form .save-success")
               .show()
-              .delay(5000)
-              .fadeOut();
-            $("#updateCollection").modal("hide").delay(5000).fadeOut();
+              .delay(1500)
+              .queue(function (n) {
+                $("#updateCollection").modal("hide").fadeOut();
+                window.location.reload();
+              });
           } else {
             $(".ezf-update-collection-form .save-danger").text(response.data);
             $(".ezf-update-collection-form .save-danger")
               .show()
-              .delay(5000)
+              .delay(1500)
               .fadeOut();
           }
         });
@@ -236,12 +248,13 @@
         if (response.success) {
           $(".ezf-ra-form")[0].reset(); // Clear the form
           $(".ezf-ra-form .save-success").text(response.data);
-          $(".ezf-ra-form .save-success").show()
-                  .delay(3000)
-                  .queue(function (n) {
-                    $("#redeemModal").modal("hide").fadeOut();
-                    window.location.reload();
-                  });
+          $(".ezf-ra-form .save-success")
+            .show()
+            .delay(3000)
+            .queue(function (n) {
+              $("#redeemModal").modal("hide").fadeOut();
+              window.location.reload();
+            });
         } else {
           $(".ezf-ra-form .save-danger").text(response.data);
           $(".ezf-ra-form .save-danger").show().delay(5000).fadeOut();
@@ -394,9 +407,12 @@
         if (response.success) {
           $(".ezf-ccm-form")[0].reset(); // Clear the form
           $(".ezf-ccm-form .save-success").text(response.data);
-          $(".ezf-ccm-form .save-success").show().delay(5000).queue(function (n) {
-            $("#ccmModal").modal("hide").fadeOut();
-          });
+          $(".ezf-ccm-form .save-success")
+            .show()
+            .delay(5000)
+            .queue(function (n) {
+              $("#ccmModal").modal("hide").fadeOut();
+            });
         } else {
           $(".ezf-ccm-form .save-danger").text(response.data);
           $(".ezf-ccm-form .save-danger").show().delay(5000).fadeOut();
@@ -422,15 +438,16 @@
           let a = response.data;
 
           $(".ezf-update-ccm-form")[0].reset(); // Clear the form
-          $(
-            ".ezf-update-ccm-form input[name='update_ccm_name']"
-          ).val(a.cc_machine_name);
-          $(
-            ".ezf-update-ccm-form input[name='update_ccm_number']"
-          ).val(a.cc_machine_number);
-          $(
-            ".ezf-update-ccm-form input:radio[value='" + a.status + "']"
-          ).attr("checked", "checked");
+          $(".ezf-update-ccm-form input[name='update_ccm_name']").val(
+            a.cc_machine_name
+          );
+          $(".ezf-update-ccm-form input[name='update_ccm_number']").val(
+            a.cc_machine_number
+          );
+          $(".ezf-update-ccm-form input:radio[value='" + a.status + "']").attr(
+            "checked",
+            "checked"
+          );
           $(".ezf-update-ccm-form input[name='uid']").val(a.id);
         }
       });
@@ -463,10 +480,7 @@
             });
         } else {
           $(".ezf-update-ccm-form .save-danger").text(response.data);
-          $(".ezf-update-ccm-form .save-danger")
-            .show()
-            .delay(5000)
-            .fadeOut();
+          $(".ezf-update-ccm-form .save-danger").show().delay(5000).fadeOut();
         }
       });
     });

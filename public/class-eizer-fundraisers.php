@@ -143,18 +143,41 @@ class Eizer_Fundraisers
 
 		$now = new DateTime();
 
+		switch ($toupdate->collection_update_payment_method) {
+			case 'Credit Card':
+				$voucher_type = '';
+				$card_holder_name = $toupdate->card_holder_name;
+				$card_number = $toupdate->card_number;
+				$check_number = '';
+				$check_memo = '';
+			  break;
+			case 'Check':
+				$voucher_type = '';
+				$card_holder_name = '';
+				$card_number = '';
+				$check_number = $toupdate->check_number;
+				$check_memo = $toupdate->check_memo;
+			  break;
+			default:
+			  $voucher_type = $toupdate->voucher_type;
+			  $card_holder_name = '';
+			  $card_number = '';
+			  $check_number = '';
+			  $check_memo = '';
+		  }
+
 		$result = $wpdb->update(
 			$tbl_collections,
 			[
 				"amount"  => $toupdate->amount,
 				"date_collected"  => $toupdate->date_collected,
-				"payment_method"  => $toupdate->payment_method,
-				"voucher_type"  => $toupdate->voucher_type,
-				"card_holder_name"  => $toupdate->card_holder_name,
-				"card_number"  => $toupdate->card_number,
-				"check_number"  => $toupdate->check_number,
-				"check_memo"  => $toupdate->check_memo,
-				"status"  => $toupdate->status,
+				"payment_method"  => $toupdate->collection_update_payment_method,
+				"voucher_type"  => $voucher_type,
+				"card_holder_name"  => $card_holder_name,
+				"card_number"  => $card_number,
+				"check_number"  => $check_number,
+				"check_memo"  => $check_memo,
+				"status"  => $toupdate->collection_update_status,
 				"user_id" => $toupdate->user_id,
 				"date_updated" => $now->format('Y-m-d H:i:s')
 			],

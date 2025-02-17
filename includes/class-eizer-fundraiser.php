@@ -161,8 +161,8 @@ class Eizer_Fundraiser {
 		// redeem
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-eizer-redeem.php';
 	    $redeem_admin = new Eizer_Redeem_Admin();
-		$this->loader->add_action( 'wp_ajax_ezf_get_ccm', $redeem_admin, 'ezf_get_ccm' );
-	    $this->loader->add_action( 'wp_ajax_nopriv_ezf_get_ccm', $redeem_admin, 'ezf_get_ccm' );
+		$this->loader->add_action( 'wp_ajax_ezf_get_redeem', $redeem_admin, 'ezf_get_redeem' );
+	    $this->loader->add_action( 'wp_ajax_nopriv_ezf_get_redeem', $redeem_admin, 'ezf_get_redeem' );
 
 		// credit card machine
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-eizer-ccm.php';

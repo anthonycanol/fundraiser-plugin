@@ -6,48 +6,48 @@ class Eizer_Redeem_Admin
         
 	}
 
-    public function ezf_add_new_ccm()
-    {
-        global $wpdb;
-        $tbl_cc_machine = $wpdb->prefix . 'ezf_cc_machine';
-        $toinsert = new StdClass();
+    // public function ezf_add_new_ccm()
+    // {
+    //     global $wpdb;
+    //     $tbl_cc_machine = $wpdb->prefix . 'ezf_cc_machine';
+    //     $toinsert = new StdClass();
 
-        if (!check_ajax_referer('my_ajax_nonce', 'nonce', false)) {
-            wp_send_json_error('Invalid Request');
-        }
+    //     if (!check_ajax_referer('my_ajax_nonce', 'nonce', false)) {
+    //         wp_send_json_error('Invalid Request');
+    //     }
 
-        if (wp_verify_nonce($_POST['nonce'], 'my_ajax_nonce')) {
-            foreach ($_POST['data'] as $a):
-                $name = $a['name'];
-                $value = sanitize_text_field($a['value']);
-                $toinsert->$name = $value;
-            endforeach;
-        }
+    //     if (wp_verify_nonce($_POST['nonce'], 'my_ajax_nonce')) {
+    //         foreach ($_POST['data'] as $a):
+    //             $name = $a['name'];
+    //             $value = sanitize_text_field($a['value']);
+    //             $toinsert->$name = $value;
+    //         endforeach;
+    //     }
 
-        $now = new DateTime();
+    //     $now = new DateTime();
 
-        // Insert data into the custom table
-        $result = $wpdb->insert(
-            $tbl_cc_machine,
-            [
-                "cc_machine_name"  => $toinsert->ccm_name,
-                "cc_machine_number"  => $toinsert->ccm_number,
-                "status"  => $toinsert->ccm_add_status,
-                "user_id" => $toinsert->user_id,
-                "date_created" => $now->format('Y-m-d H:i:s'),
-                "date_updated" => $now->format('Y-m-d H:i:s')
-            ]
-        );
+    //     // Insert data into the custom table
+    //     $result = $wpdb->insert(
+    //         $tbl_cc_machine,
+    //         [
+    //             "cc_machine_name"  => $toinsert->ccm_name,
+    //             "cc_machine_number"  => $toinsert->ccm_number,
+    //             "status"  => $toinsert->ccm_add_status,
+    //             "user_id" => $toinsert->user_id,
+    //             "date_created" => $now->format('Y-m-d H:i:s'),
+    //             "date_updated" => $now->format('Y-m-d H:i:s')
+    //         ]
+    //     );
         
-        // Check if the data was inserted successfully
-        if ($result) {
-            wp_send_json_success('Data saved successfully!');
-        } else {
-            wp_send_json_error('Failed to save data.');
-        }
+    //     // Check if the data was inserted successfully
+    //     if ($result) {
+    //         wp_send_json_success('Data saved successfully!');
+    //     } else {
+    //         wp_send_json_error('Failed to save data.');
+    //     }
 
-        wp_die();
-    }
+    //     wp_die();
+    // }
 
     function ezf_get_redeem()
     {
