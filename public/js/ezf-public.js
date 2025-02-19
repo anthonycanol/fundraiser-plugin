@@ -5,18 +5,93 @@
 
   $(function () {
     // Init Data
-    // const initData = () => {
-    //   var data = {
-    //     action: "ezf_add_new_collection", // WordPress AJAX action
-    //     nonce: ezf_ajax_object.nonce, // Nonce for security
-    //     data: { data:'all' }, // Data to send
-    //   };
+    const initData = () => {
+      let USDollar = new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+      });
+      let id = $("input[id='usrId']").val();
 
-    //   let posting = $.post(ezf_ajax_object.ajax_url, data);
-    //   posting.done(function (response) {
-    //     console.log('response: ',response)
-    //   });
-    // }
+      var data = {
+        action: "ezf_get_all_collection", // WordPress AJAX action
+        nonce: ezf_ajax_object.nonce, // Nonce for security
+        data: { user_id: id }, // Data to send
+      };
+
+      let posting = $.post(ezf_ajax_object.ajax_url, data);
+      posting.done(function (response) {
+        let collections = response.data;
+        let html = "";
+        html += '<div class="row align-items-center">';
+        console.log("collections: ", collections);
+        if (collections.length > 0) {
+          for (const a of collections) {
+            const d = new Date(a.date_collected);
+            let css = "text-secondary";
+            switch (a.status) {
+              case "Accepted":
+                css = "text-success";
+                break;
+              case "Declined":
+                css = "text-danger";
+                break;
+              case "Refund":
+                css = "text-warning";
+                break;
+              default:
+                css = "text-secondary";
+            }
+            html += '<div class="row align-items-center">';
+            html += '<div class="col-sm-2">';
+            html += '<p class="mb-0">' + d.toLocaleDateString("en-US") + "</p>";
+            html += "</div>";
+            html += '<div class="col-sm-3">';
+            html += '<p class="text-muted mb-0">' + a.payment_method + "</p>";
+            html += "</div>";
+            html += '<div class="col-sm-3">';
+            html +=
+              '<p class="text-muted text-end mb-0 d-flex justify-content-between">' +
+              USDollar.format(a.amount) +
+              "</p>";
+            html += "</div>";
+            html += '<div class="col-sm-3">';
+            html += '<p class="mb-0 ' + css + '">' + a.status + "</p>";
+            html += '</div>'
+            html += '<div class="col-sm-1">';
+
+            html += '<div class="dropdown">';
+            html +=
+              '    <button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">';
+            html +=
+              '    <svg width="12" height="14" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">';
+            html +=
+              '    <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />';
+            html += '</svg>';
+            html += '</button>';
+            html += '<ul class="dropdown-menu dropdown-menu-dark">';
+            html +=
+              '    <li><a class="dropdown-item text-uppercase update-link" style="font-size: 12px; letter-spacing: 1px;" data-bs-toggle="modal" data-bs-target="#updateCollection" data-id="' +
+              a.id +
+              '">edit</a></li>';
+            html +=
+              '    <li><a class="dropdown-item text-danger text-uppercase delete-link" style="font-size: 12px; letter-spacing: 1px;" data-bs-toggle="modal" data-bs-target="#deleteCollection" data-id="' +
+              a.id +
+              '">delete</a></li>';
+            html += '</ul>';
+            html += '</div>';
+
+            html += '</div>';
+            html += '</div>';
+            html += '<hr class="m-0"></hr>';
+          }
+        } else {
+          html +=
+            '<div class="row"><div class="text-center">No collections to display.</div></div>';
+        }
+        html += "</div>";
+        $(".collections-list").html(html);
+      });
+    };
 
     // Create Collection
     $(".ezf-collection-form .save-collection").on("click", function (e) {
@@ -45,9 +120,9 @@
     });
 
     // Retrieve Collection
-    $(".collectionDisplay .update-link").on("click", function (e) {
+    $(document).on("click", ".collectionDisplay .update-link",function (e) {
       e.preventDefault();
-
+      console.log('prepare data for update')
       let id = $(this).data("id");
 
       var data = {
@@ -540,6 +615,6 @@
       });
     });
 
-    // initData()
+    initData();
   });
 })(jQuery);

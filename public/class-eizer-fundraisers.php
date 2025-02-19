@@ -49,6 +49,22 @@ class Eizer_Fundraisers
 		return ob_get_clean();
 	}
 
+	function ezf_get_all_collection(){
+		global $wpdb;
+		$tbl_collections = $wpdb->prefix . 'ezf_collections';
+		$user_id = $_POST['data']['user_id'];
+		$collections = $wpdb->get_results($wpdb->prepare("select * from $tbl_collections where user_id=%s ORDER BY id DESC", $user_id));
+
+		// Check if the data was inserted successfully
+		if ($collections) {
+			wp_send_json_success($collections);
+		} else {
+			wp_send_json_error('Failed to retrieve data.');
+		}
+
+		wp_die();
+	}
+
 	function ezf_add_new_collection()
 	{
 		global $wpdb;

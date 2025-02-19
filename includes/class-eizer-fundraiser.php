@@ -202,6 +202,8 @@ class Eizer_Fundraiser {
 		// handle ajax events
 		$this->loader->add_action( 'wp_ajax_ezf_init_data', $fundraisers, 'ezf_init_data' );
 	    $this->loader->add_action( 'wp_ajax_nopriv_ezf_init_data', $fundraisers, 'ezf_init_data' );
+		$this->loader->add_action( 'wp_ajax_ezf_get_all_collection', $fundraisers, 'ezf_get_all_collection' );
+		$this->loader->add_action( 'wp_ajax_nopriv_ezf_get_all_collection', $fundraisers, 'ezf_get_all_collection' );
 
 		// collection
 		$this->loader->add_action( 'wp_ajax_ezf_add_new_collection', $fundraisers, 'ezf_add_new_collection' );

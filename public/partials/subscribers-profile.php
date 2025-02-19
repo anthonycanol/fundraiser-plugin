@@ -96,7 +96,7 @@ endif;
               <p class="text-muted mb-0 text-uppercase text-center fw-bold">&nbsp;</p>
             </div>
           </div>
-
+          
           <?php
           if ($collections):
             foreach ($collections as $collection):
