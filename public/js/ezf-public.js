@@ -56,7 +56,7 @@
             html += "</div>";
             html += '<div class="col-sm-3">';
             html += '<p class="mb-0 ' + css + '">' + a.status + "</p>";
-            html += '</div>'
+            html += "</div>";
             html += '<div class="col-sm-1">';
 
             html += '<div class="dropdown">';
@@ -66,8 +66,8 @@
               '    <svg width="12" height="14" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">';
             html +=
               '    <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />';
-            html += '</svg>';
-            html += '</button>';
+            html += "</svg>";
+            html += "</button>";
             html += '<ul class="dropdown-menu dropdown-menu-dark">';
             html +=
               '    <li><a class="dropdown-item text-uppercase update-link" style="font-size: 12px; letter-spacing: 1px;" data-bs-toggle="modal" data-bs-target="#updateCollection" data-id="' +
@@ -77,11 +77,11 @@
               '    <li><a class="dropdown-item text-danger text-uppercase delete-link" style="font-size: 12px; letter-spacing: 1px;" data-bs-toggle="modal" data-bs-target="#deleteCollection" data-id="' +
               a.id +
               '">delete</a></li>';
-            html += '</ul>';
-            html += '</div>';
+            html += "</ul>";
+            html += "</div>";
 
-            html += '</div>';
-            html += '</div>';
+            html += "</div>";
+            html += "</div>";
             html += '<hr class="m-0"></hr>';
           }
         } else {
@@ -112,6 +112,7 @@
           $(".save-success").text(response.data);
           $(".save-success").show().delay(5000).fadeOut();
           $("#staticBackdrop").modal("hide").delay(5000).fadeOut();
+          initData();
         } else {
           $(".save-danger").text(response.data);
           $(".save-danger").show().delay(5000).fadeOut();
@@ -120,9 +121,9 @@
     });
 
     // Retrieve Collection
-    $(document).on("click", ".collectionDisplay .update-link",function (e) {
+    $(document).on("click", ".collectionDisplay .update-link", function (e) {
       e.preventDefault();
-      console.log('prepare data for update')
+      console.log("prepare data for update");
       let id = $(this).data("id");
 
       var data = {
@@ -290,11 +291,14 @@
           if (response.success) {
             $(".ezf-delete-collection-form")[0].reset(); // Clear the form
             $(".ezf-delete-collection-form .save-success").text(response.data);
+            $("#deleteCollection").modal("hide").delay(5000).fadeOut();
             $(".ezf-delete-collection-form .save-success")
               .show()
-              .delay(5000)
-              .fadeOut();
-            $("#deleteCollection").modal("hide").delay(5000).fadeOut();
+              .delay(1500)
+              .queue(function (n) {
+                $("#deleteCollection").modal("hide").fadeOut();
+                window.location.reload();
+              });
           } else {
             $(".ezf-delete-collection-form .save-danger").text(response.data);
             $(".ezf-delete-collection-form .save-danger")
